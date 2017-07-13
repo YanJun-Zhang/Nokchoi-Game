@@ -1,0 +1,11 @@
+### QT ###
+#build folders
+*debug/
+*release/
+
+#project files
+*.pro.*
+
+#makefiles
+Makefile*
+.qmake*
