@@ -8,11 +8,13 @@
 class Enemy : public QObject, public QGraphicsRectItem {
     Q_OBJECT
     int health;
+    bool left;
 public:
     Enemy();
     void attackedBy(QGraphicsItem *weapon);
 public slots:
-    void move();
+    void moveDown();
+    void moveSide();
 };
 
 #endif // ENEMY_H

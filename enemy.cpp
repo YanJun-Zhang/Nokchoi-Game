@@ -6,13 +6,18 @@
 Enemy::Enemy() {
     setRect(0, 0, 50, 50);
     health = 2;
+    left = true;
 
     // connect
-    QTimer *timer = new QTimer();
-    // SLOT is method that is called on SIGNAL
-    connect(timer, SIGNAL(timeout()), this, SLOT(move()));
+    QTimer *moveDownTimer = new QTimer();
+    QTimer *moveSideTimer = new QTimer();
 
-    timer->start(200); // every 50 ms, timeout() is called
+    // SLOT is method that is called on SIGNAL
+    connect(moveDownTimer, SIGNAL(timeout()), this, SLOT(moveDown()));
+    connect(moveSideTimer, SIGNAL(timeout()), this, SLOT(moveSide()));
+
+    moveDownTimer->start(200);
+    moveSideTimer->start(10);
 }
 
 void Enemy::attackedBy(QGraphicsItem *weapon) {
@@ -26,7 +31,7 @@ void Enemy::attackedBy(QGraphicsItem *weapon) {
     }
 }
 
-void Enemy::move() {
+void Enemy::moveDown() {
     // move enemy down
     setPos(x(), y() + 10);
 
@@ -34,5 +39,17 @@ void Enemy::move() {
     if (pos().y() > scene()->height()) {
         scene()->removeItem(this);
         delete this;
+    }
+}
+
+void Enemy::moveSide() {
+    if (left) {
+        setPos(x() - 2, y());
+    } else {
+        setPos(x() + 2, y());
+    }
+
+    if (x() + 50 > scene()->width() || x() < 0) {
+        left = !left;
     }
 }
