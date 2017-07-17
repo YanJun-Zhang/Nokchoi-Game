@@ -18,10 +18,12 @@ void Bullet::move() {
     // check interaction
     QList<QGraphicsItem *> hitList = this->collidingItems();
     int size = hitList.size(); // should only be at most 1 object being hit
-    if (size != 0) {
-        (static_cast<Enemy *>(hitList[0]))->attackedBy(this);
-        delete this; // bullet is gone
-        return;
+    for (int i = 0; i < size; i++) {
+        if (typeid(*(hitList[i])) == typeid(Enemy)) {
+            (static_cast<Enemy *>(hitList[0]))->attackedBy(this);
+            delete this; // bullet is gone
+            return;
+        }
     }
 
     // move bullet up

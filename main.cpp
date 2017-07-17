@@ -34,15 +34,18 @@ int main(int argc, char *argv[]) {
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // modify sizes and positions
-    view->setFixedSize(800, 600);
-    scene->setSceneRect(0, 0, 800, 600);
+    view->setFixedSize(600, 800);
+    scene->setSceneRect(0, 0, 600, 800);
     player->setPos(view->width() / 2, view->height());
     view->show();
 
-    // spawns enemy
+    // spawns enemy and initialize the player interaction
     QTimer * spawnner = new QTimer();
+    QTimer * checkHit = new QTimer();
     QObject::connect(spawnner, SIGNAL(timeout()), player, SLOT(spawnEnemy()));
+    QObject::connect(checkHit, SIGNAL(timeout()), player, SLOT(checkHit()));
     spawnner->start(4000);
+    checkHit->start(10);
 
     return a.exec();
 }
